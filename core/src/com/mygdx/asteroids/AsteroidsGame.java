@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.mygdx.asteroids.entities.Entity;
+import com.mygdx.asteroids.entities.Spaceship;
 
 public class AsteroidsGame extends ApplicationAdapter implements IEntityDiedObserver {
 	private SpriteBatch mBatch;
@@ -66,7 +68,7 @@ public class AsteroidsGame extends ApplicationAdapter implements IEntityDiedObse
 
 	@Override
 	public void onEntityDead(Entity spaceship) {
-		System.out.println("------Player died! Resetting the game...");
+		System.out.println("------Player died! Restarting the game...");
 		spaceship.setOriginBasedPosition(CAMERA_WIDTH / 2.f,CAMERA_HEIGHT / 2.f);
 		((Spaceship)spaceship).reset();
 		mMeteorSpawner.resetMeteors();

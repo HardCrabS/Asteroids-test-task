@@ -4,6 +4,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.asteroids.collision.CircleCollisionShape;
+import com.mygdx.asteroids.entities.Entity;
+import com.mygdx.asteroids.entities.Meteor;
+import com.mygdx.asteroids.entities.MeteorSize;
 
 import java.util.ArrayList;
 
@@ -21,9 +25,11 @@ public class MeteorSpawner implements IEntityDiedObserver {
         for (int i = 0; i < MAX_METEORS; i++) {
             Meteor meteor = spawnMeteor();
             randomizeMeteor(meteor);
+            EntitiesController.get().registerEntity(meteor);
         }
     }
     public void resetMeteors() {
+        System.out.println("Resetting meteors...");
         for (Meteor meteor: mMeteors) {
             randomizeMeteor(meteor);
         }
@@ -31,24 +37,22 @@ public class MeteorSpawner implements IEntityDiedObserver {
     private void randomizeMeteor(Meteor meteor) {
         MeteorSize meteorSize = MeteorSize.randomSize();
         Texture texture = ResourceHolder.get().getRandomMeteorTexture(meteorSize);
-        Vector2 randPoint = findRandomPointForMeteor(meteor);
+        Vector2 randPoint = findRandomPointForMeteor(texture.getWidth()/2.f);
         Vector2 randDirection = getRandomPoint(-1f, -1f, 1f, 1f);
         float randSpeed = MathUtils.random(0, MAX_SPEED);
         meteor.setOriginBasedPosition(randPoint.x, randPoint.y);
         meteor.setValues(texture, randSpeed, randDirection);
     }
-    private Vector2 findRandomPointForMeteor(Meteor meteor) {
+    private Vector2 findRandomPointForMeteor(float radius) {
+        CircleCollisionShape circleShape = new CircleCollisionShape();
         for (int i = 0; i < MAX_RANDOMIZE_ATTEMPTS; i++) {
             Vector2 randPoint = getRandomPoint(0, 0, mBounds.x, mBounds.y);
-            if (isCorrectPlaceForSpawn(randPoint, meteor))
+            circleShape.set(randPoint.x + radius, randPoint.y + radius, radius);
+            if (!EntitiesController.get().isColliding(circleShape))
                 return randPoint;
         }
         System.out.println("Couldn't find a proper place for meteor!");
         return Vector2.Zero;
-    }
-    private boolean isCorrectPlaceForSpawn(Vector2 point, Meteor meteor) {
-        // TODO: check for collision between all entities
-        return true;
     }
     private Vector2 getRandomPoint(float minX, float minY, float maxX, float maxY) {
         float randomX = MathUtils.random(minX, maxX);
@@ -58,7 +62,6 @@ public class MeteorSpawner implements IEntityDiedObserver {
     }
     private Meteor spawnMeteor() {
         Meteor meteor = new Meteor(new Sprite());
-        EntitiesController.get().registerEntity(meteor);
         mMeteors.add(meteor);
         meteor.setObserver(this);
         return meteor;

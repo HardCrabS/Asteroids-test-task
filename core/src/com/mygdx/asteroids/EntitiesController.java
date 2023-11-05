@@ -2,6 +2,9 @@ package com.mygdx.asteroids;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.asteroids.collision.CollisionShape;
+import com.mygdx.asteroids.entities.Entity;
+import com.mygdx.asteroids.entities.EntityState;
 
 import java.util.*;
 
@@ -70,6 +73,14 @@ public class EntitiesController {
     }
     public void setBounds(float boundX, float boundY) {
         mBounds = new Vector2(boundX, boundY);
+    }
+    public boolean isColliding(CollisionShape shape) {
+        for (Entity entity: mEntities) {
+            if (entity.isCollision(shape)) {
+                return true;
+            }
+        }
+        return false;
     }
     private void checkCollisions() {
         mPrevCollisionPairs.clear();

@@ -1,12 +1,13 @@
-package com.mygdx.asteroids;
+package com.mygdx.asteroids.entities;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.asteroids.collision.CollisionLayer;
 import com.mygdx.asteroids.collision.PolygonCollisionShape;
 
 public class Bullet extends Entity {
     public Bullet(Sprite sprite, float speed, Vector2 direction) {
-        super(sprite, speed);
+        super(sprite, CollisionLayer.BULLET, CollisionLayer.METEOR, speed);
         mVelocityDirection = direction;
         float widthHalf = mSprite.getWidth()/2;
         float heightHalf = mSprite.getHeight()/2;

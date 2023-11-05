@@ -3,6 +3,7 @@ package com.mygdx.asteroids;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Disposable;
+import com.mygdx.asteroids.entities.MeteorSize;
 
 import java.io.File;
 import java.util.ArrayList;

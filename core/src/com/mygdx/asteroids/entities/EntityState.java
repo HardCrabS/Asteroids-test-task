@@ -1,4 +1,4 @@
-package com.mygdx.asteroids;
+package com.mygdx.asteroids.entities;
 
 public enum EntityState {
     Active,

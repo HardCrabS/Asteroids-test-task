@@ -1,8 +1,9 @@
-package com.mygdx.asteroids;
+package com.mygdx.asteroids.entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.asteroids.IEntityDiedObserver;
 import com.mygdx.asteroids.collision.CollisionShape;
 
 public abstract class Entity {
@@ -14,15 +15,19 @@ public abstract class Entity {
     protected CollisionShape mCollisionShape;
     protected float mSpeed;
     protected Vector2 mVelocityDirection;
+    private final int mCollisionLayer;
+    private final int mCollisionMask;
 
     public void setObserver(IEntityDiedObserver observer) {
         this.mOnDieObserver = observer;
     }
     IEntityDiedObserver mOnDieObserver = null;
 
-    public Entity(Sprite sprite, float speed)
+    public Entity(Sprite sprite, int colLayer, int colMask, float speed)
     {
         mSprite = sprite;
+        mCollisionLayer = colLayer;
+        mCollisionMask = colMask;
         mSpeed = speed;
         mSprite.setOriginCenter();
     }
@@ -30,8 +35,12 @@ public abstract class Entity {
         mSprite.draw(batch);
     }
     public boolean isCollision(Entity other) {
-        // TODO: check for matching tags?
-        return mCollisionShape.collideVisit(other.mCollisionShape);
+        return (mCollisionMask & other.mCollisionLayer) != 0 &&
+                (other.mCollisionMask & mCollisionLayer) != 0 &&
+                mCollisionShape.collideVisit(other.mCollisionShape);
+    }
+    public boolean isCollision(CollisionShape otherShape) {
+        return mCollisionShape.collideVisit(otherShape);
     }
     public void drawCollisionShape() {mCollisionShape.draw();}
     public void update(float deltaTime) {mCollisionShape.update();}

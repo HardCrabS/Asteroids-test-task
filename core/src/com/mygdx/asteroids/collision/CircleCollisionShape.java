@@ -8,14 +8,22 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Polygon;
 
 public class CircleCollisionShape extends CollisionShape {
+    public CircleCollisionShape() {
+        super(null);
+    }
     public CircleCollisionShape(Sprite sprite, float x, float y, float radius) {
         super(sprite);
         mShape = new Circle(x, y, radius);
     }
+    public void set(float x, float y, float radius) {
+        mShape = new Circle(x, y, radius);
+    }
     @Override
     public void update() {
-        Circle circle = (Circle) mShape;
-        circle.setPosition(mSprite.getX() + mSprite.getOriginX(), mSprite.getY() + mSprite.getOriginY());
+        if (mSprite != null) {
+            Circle circle = (Circle) mShape;
+            circle.setPosition(mSprite.getX() + mSprite.getOriginX(), mSprite.getY() + mSprite.getOriginY());
+        }
     }
     @Override
     public boolean collideVisit(CollisionShape collisionShape) {
@@ -32,6 +40,8 @@ public class CircleCollisionShape extends CollisionShape {
     }
     @Override
     public void draw() {
+        if (mSprite == null)
+            return;
         Circle circle = (Circle) mShape;
         mShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         Gdx.gl.glEnable(GL20.GL_BLEND);

@@ -1,9 +1,13 @@
-package com.mygdx.asteroids;
+package com.mygdx.asteroids.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.asteroids.EntitiesController;
+import com.mygdx.asteroids.ResourceHolder;
+import com.mygdx.asteroids.ResourceId;
+import com.mygdx.asteroids.collision.CollisionLayer;
 import com.mygdx.asteroids.collision.PolygonCollisionShape;
 
 public class Spaceship extends Entity {
@@ -13,10 +17,10 @@ public class Spaceship extends Entity {
     private Vector2 mFaceDirection;
     private int mHealth = 3;
     private float mTimeSinceLastShot = 0.f;
-    private Texture mBulletTexture;
+    private final Texture mBulletTexture;
 
     public Spaceship(Sprite sprite, float speed) {
-        super(sprite, speed);
+        super(sprite, CollisionLayer.PLAYER, CollisionLayer.METEOR, speed);
         mFaceDirection = new Vector2(0, 1);
 
         mBulletTexture = ResourceHolder.get().getResource(ResourceId.Bullet);

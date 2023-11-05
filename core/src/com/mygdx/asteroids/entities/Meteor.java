@@ -1,13 +1,15 @@
-package com.mygdx.asteroids;
+package com.mygdx.asteroids.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.asteroids.collision.CircleCollisionShape;
+import com.mygdx.asteroids.collision.CollisionLayer;
 
 public class Meteor extends Entity {
     public Meteor(Sprite sprite) {
-        super(sprite, 0);
+        super(sprite, CollisionLayer.METEOR,
+                CollisionLayer.PLAYER | CollisionLayer.BULLET, 0);
     }
     public void setValues(Texture texture, float speed, Vector2 direction) {
         mSprite.setTexture(texture);
