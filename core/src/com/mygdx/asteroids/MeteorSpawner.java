@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
-public class MeteorSpawner {
+public class MeteorSpawner implements IEntityDiedObserver {
     private static final int MAX_METEORS = 3;
     private static final int MAX_SPEED = 50;
     private static final int MAX_RANDOMIZE_ATTEMPTS = 30;
@@ -24,7 +24,9 @@ public class MeteorSpawner {
         }
     }
     public void resetMeteors() {
-
+        for (Meteor meteor: mMeteors) {
+            randomizeMeteor(meteor);
+        }
     }
     private void randomizeMeteor(Meteor meteor) {
         MeteorSize meteorSize = MeteorSize.randomSize();
@@ -58,7 +60,12 @@ public class MeteorSpawner {
         Meteor meteor = new Meteor(new Sprite());
         EntitiesController.get().registerEntity(meteor);
         mMeteors.add(meteor);
+        meteor.setObserver(this);
         return meteor;
-        // TODO: subscribe for meteor dead state to immediately respawn it
+    }
+
+    @Override
+    public void onEntityDead(Entity entity) {
+        randomizeMeteor((Meteor)entity);
     }
 }

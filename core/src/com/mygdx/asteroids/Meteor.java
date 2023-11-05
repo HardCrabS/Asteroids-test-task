@@ -23,4 +23,10 @@ public class Meteor extends Entity {
         Vector2 offset = mVelocityDirection.cpy().scl(mSpeed).scl(deltaTime);
         mSprite.translate(offset.x, offset.y);
     }
+
+    @Override
+    public void onCollision(Entity collision) {
+        super.onCollision(collision);
+        die();
+    }
 }

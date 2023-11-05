@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class AsteroidsGame extends ApplicationAdapter {
+public class AsteroidsGame extends ApplicationAdapter implements IEntityDiedObserver {
 	private SpriteBatch mBatch;
 	private TiledDrawable mTiledBackground;
 	private Player mPlayer;
@@ -20,7 +20,6 @@ public class AsteroidsGame extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-		// create the camera and the SpriteBatch
 		mCamera = new OrthographicCamera();
 		mCamera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
 
@@ -30,10 +29,12 @@ public class AsteroidsGame extends ApplicationAdapter {
 
 		Sprite spaceShipSprite = new Sprite(ResourceHolder.get().getResource(ResourceId.Spaceship));
 		Spaceship spaceship = new Spaceship(spaceShipSprite, 300.f);
-		EntitiesController.get().setBounds(CAMERA_WIDTH, CAMERA_HEIGHT);
+		spaceship.setObserver(this);
 		EntitiesController.get().registerEntity(spaceship);
+		spaceship.setOriginBasedPosition(CAMERA_WIDTH / 2.f,CAMERA_HEIGHT / 2.f);
 		mPlayer = new Player(spaceship, mCamera);
 
+		EntitiesController.get().setBounds(CAMERA_WIDTH, CAMERA_HEIGHT);
 		mMeteorSpawner = new MeteorSpawner(CAMERA_WIDTH, CAMERA_HEIGHT);
 		mMeteorSpawner.fillWithMeteors();
 	}
@@ -58,13 +59,15 @@ public class AsteroidsGame extends ApplicationAdapter {
 		EntitiesController.get().update(deltaTime);
 	}
 
-	private void prepareGame() {
-		mPlayer.getSpaceship().setOriginBasedPosition(CAMERA_WIDTH / 2.f,CAMERA_HEIGHT / 2.f);
-	}
-
 	@Override
 	public void dispose () {
 		mBatch.dispose();
 		ResourceHolder.get().dispose();
+	}
+
+	@Override
+	public void onEntityDead(Entity spaceship) {
+		spaceship.setOriginBasedPosition(CAMERA_WIDTH / 2.f,CAMERA_HEIGHT / 2.f);
+		mMeteorSpawner.resetMeteors();
 	}
 }

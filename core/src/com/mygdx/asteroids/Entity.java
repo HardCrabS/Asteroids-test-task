@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Entity {
@@ -16,6 +15,11 @@ public abstract class Entity {
     protected float mSpeed;
     protected Vector2 mVelocityDirection;
     private ShapeRenderer mShapeRenderer;
+
+    public void setObserver(IEntityDiedObserver observer) {
+        this.mOnDieObserver = observer;
+    }
+    IEntityDiedObserver mOnDieObserver = null;
 
     public Entity(Sprite sprite, float speed)
     {
@@ -53,5 +57,9 @@ public abstract class Entity {
     private Circle getCollisionShape() {
         mCollisionShape.setPosition(getOriginBasedPosition());
         return mCollisionShape;
+    }
+    protected void die() {
+        if (mOnDieObserver != null)
+            mOnDieObserver.onEntityDead(this);
     }
 }

@@ -7,10 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class Player {
-    public Spaceship getSpaceship() {
-        return mSpaceship;
-    }
-
     private Spaceship mSpaceship;
     private Camera mCamera;
     public Player(Spaceship spaceship, Camera camera) {

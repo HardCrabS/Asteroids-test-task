@@ -27,4 +27,9 @@ public class Spaceship extends Entity {
         mSprite.rotate(MathUtils.radiansToDegrees * angleRad);
         mFaceDirection = dirToPoint;
     }
+    @Override
+    public void onCollision(Entity collision) {
+        super.onCollision(collision);
+        die();
+    }
 }
