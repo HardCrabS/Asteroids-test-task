@@ -31,9 +31,7 @@ public abstract class Entity {
     }
     public void drawCollisionShape() {mCollisionShape.draw();}
     public void update(float deltaTime) {mCollisionShape.update();}
-    public void onCollision(Entity collision) {
-        System.out.println(this + " collided with: " + collision);
-    }
+    public void onCollision(Entity collision) {}
     public void setOriginBasedPosition(float x, float y) {
         mSprite.setOriginBasedPosition(x, y);
     }

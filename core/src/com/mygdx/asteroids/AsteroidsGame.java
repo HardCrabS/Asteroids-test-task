@@ -52,8 +52,7 @@ public class AsteroidsGame extends ApplicationAdapter implements IEntityDiedObse
 		EntitiesController.get().drawCollisionShape();
 	}
 
-	private void update()
-	{
+	private void update() {
 		float deltaTime = Gdx.graphics.getDeltaTime();
 		mPlayer.update(deltaTime);
 		EntitiesController.get().update(deltaTime);
@@ -67,7 +66,9 @@ public class AsteroidsGame extends ApplicationAdapter implements IEntityDiedObse
 
 	@Override
 	public void onEntityDead(Entity spaceship) {
+		System.out.println("------Player died! Resetting the game...");
 		spaceship.setOriginBasedPosition(CAMERA_WIDTH / 2.f,CAMERA_HEIGHT / 2.f);
+		((Spaceship)spaceship).resetHealth();
 		mMeteorSpawner.resetMeteors();
 	}
 }

@@ -6,7 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.asteroids.collision.PolygonCollisionShape;
 
 public class Spaceship extends Entity {
+    private static final int MAX_HEALTH = 3;
     private Vector2 mFaceDirection;
+    private int mHealth = 3;
 
     public Spaceship(Sprite sprite, float speed) {
         super(sprite, speed);
@@ -34,6 +36,10 @@ public class Spaceship extends Entity {
     @Override
     public void onCollision(Entity collision) {
         super.onCollision(collision);
-        die();
+        mHealth--;
+        System.out.println("Spaceship collided with " + collision + ". HP left: " + mHealth);
+        if (mHealth <= 0)
+            die();
     }
+    public void resetHealth() {mHealth=MAX_HEALTH;}
 }
