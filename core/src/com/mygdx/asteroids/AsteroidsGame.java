@@ -30,12 +30,12 @@ public class AsteroidsGame extends ApplicationAdapter {
 
 		Sprite spaceShipSprite = new Sprite(ResourceHolder.get().getResource(ResourceId.Spaceship));
 		Spaceship spaceship = new Spaceship(spaceShipSprite, 300.f);
-		spaceship.setOriginBasedPosition(CAMERA_WIDTH / 2.f,CAMERA_HEIGHT / 2.f);
 		EntitiesController.get().setBounds(CAMERA_WIDTH, CAMERA_HEIGHT);
 		EntitiesController.get().registerEntity(spaceship);
 		mPlayer = new Player(spaceship, mCamera);
 
 		mMeteorSpawner = new MeteorSpawner(CAMERA_WIDTH, CAMERA_HEIGHT);
+		mMeteorSpawner.fillWithMeteors();
 	}
 
 	@Override
@@ -48,6 +48,7 @@ public class AsteroidsGame extends ApplicationAdapter {
 		mTiledBackground.draw(mBatch, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		EntitiesController.get().draw(mBatch);
 		mBatch.end();
+		EntitiesController.get().drawCollisionShape();
 	}
 
 	private void update()
@@ -55,6 +56,10 @@ public class AsteroidsGame extends ApplicationAdapter {
 		float deltaTime = Gdx.graphics.getDeltaTime();
 		mPlayer.update(deltaTime);
 		EntitiesController.get().update(deltaTime);
+	}
+
+	private void prepareGame() {
+		mPlayer.getSpaceship().setOriginBasedPosition(CAMERA_WIDTH / 2.f,CAMERA_HEIGHT / 2.f);
 	}
 
 	@Override

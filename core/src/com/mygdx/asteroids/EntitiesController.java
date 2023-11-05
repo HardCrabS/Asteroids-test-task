@@ -22,10 +22,16 @@ public class EntitiesController {
             entity.update(deltaTime);
             clampToBounds(entity);
         }
+        checkCollisions();
     }
     public void draw(Batch batch) {
         for (Entity entity: mEntities) {
             entity.draw(batch);
+        }
+    }
+    public void drawCollisionShape() {
+        for (Entity entity: mEntities) {
+            entity.drawCollisionShape();
         }
     }
     public void registerEntity(Entity entity) {
@@ -33,6 +39,17 @@ public class EntitiesController {
     }
     public void setBounds(float boundX, float boundY) {
         mBounds = new Vector2(boundX, boundY);
+    }
+    private void checkCollisions() {
+        for (Entity entity: mEntities) {
+            for (Entity entityToCheckCollisionWith: mEntities) {
+                if (entity != entityToCheckCollisionWith &&
+                        entity.isCollision(entityToCheckCollisionWith)) {
+                    entity.onCollision(entityToCheckCollisionWith);
+                    entityToCheckCollisionWith.onCollision(entity);
+                }
+            }
+        }
     }
     private void clampToBounds(Entity entity) {
         Vector2 entityPos = entity.getOriginBasedPosition();
