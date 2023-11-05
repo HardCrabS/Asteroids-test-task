@@ -6,6 +6,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.asteroids.collision.CollisionShape;
 
 public abstract class Entity {
+    public EntityState getEntityState() {
+        return mState;
+    }
+    protected EntityState mState = EntityState.Active;
     protected Sprite mSprite;
     protected CollisionShape mCollisionShape;
     protected float mSpeed;
@@ -32,14 +36,19 @@ public abstract class Entity {
     public void drawCollisionShape() {mCollisionShape.draw();}
     public void update(float deltaTime) {mCollisionShape.update();}
     public void onCollision(Entity collision) {}
+    public void onOutOfScreen() {}
     public void setOriginBasedPosition(float x, float y) {
         mSprite.setOriginBasedPosition(x, y);
     }
     public Vector2 getOriginBasedPosition() {
         return new Vector2(mSprite.getX() + mSprite.getOriginX(), mSprite.getY() + mSprite.getOriginY());
     }
+    public void setRotation(float degrees) {
+        mSprite.setRotation(degrees);
+    }
     protected void die() {
         if (mOnDieObserver != null)
             mOnDieObserver.onEntityDead(this);
     }
+    protected void destroy() {mState = EntityState.Destroyed;}
 }

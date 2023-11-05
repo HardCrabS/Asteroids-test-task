@@ -33,5 +33,9 @@ public class Player {
         touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         mCamera.unproject(touchPos);
         mSpaceship.lookAt(new Vector2(touchPos.x, touchPos.y));
+
+        if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            mSpaceship.shoot();
+        }
     }
 }

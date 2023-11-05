@@ -18,6 +18,5 @@ public abstract class CollisionShape {
     public abstract boolean collideVisit(CollisionShape collisionShape);
     public void draw() {}
     public abstract boolean collide(CircleCollisionShape circle);
-    public abstract boolean collide(RectangleCollisionShape rectangle);
     public abstract boolean collide(PolygonCollisionShape polygon);
 }

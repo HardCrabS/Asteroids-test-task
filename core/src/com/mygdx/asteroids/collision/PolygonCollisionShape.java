@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Polygon;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class PolygonCollisionShape extends CollisionShape {
     public PolygonCollisionShape(Sprite sprite, float[] vertices) {
@@ -27,12 +26,8 @@ public class PolygonCollisionShape extends CollisionShape {
         return Collision.overlaps((Polygon)mShape, (Circle)circle.mShape);
     }
     @Override
-    public boolean collide(RectangleCollisionShape rectangle) {
-        throw new NotImplementedException();
-    }
-    @Override
     public boolean collide(PolygonCollisionShape polygon) {
-        throw new NotImplementedException();
+        return false;
     }
     @Override
     public void draw() {

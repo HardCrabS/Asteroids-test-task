@@ -24,7 +24,5 @@ public class Collision {
         return false;
     }
     public static boolean overlaps(Circle c, Polygon p) {return overlaps(p, c);}
-    public static boolean overlaps(Circle c, Rectangle r) {return Intersector.overlaps(c, r);}
-    public static boolean overlaps(Rectangle r, Circle c) {return Intersector.overlaps(c, r);}
     public static boolean overlaps(Circle c1, Circle c2) {return Intersector.overlaps(c1, c2);}
 }

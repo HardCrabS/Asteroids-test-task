@@ -13,11 +13,11 @@ class Tuple <T1, T2> {
         this.v2 = v2;
     }
     @Override
-    public int hashCode () {
+    public int hashCode() {
         return Objects.hashCode(v1);
     }
     @Override
-    public boolean equals (Object other) {
+    public boolean equals(Object other) {
         Tuple<T1, T2> tuple = (Tuple<T1, T2>)other;
         return Objects.deepEquals(this.v1, tuple.v1);
     }
@@ -45,6 +45,15 @@ public class EntitiesController {
             clampToBounds(entity);
         }
         checkCollisions();
+
+        // remove destroyed
+        Iterator<Entity> iterator = mEntities.iterator();
+        while (iterator.hasNext()) {
+            Entity entity = iterator.next();
+            if (entity.getEntityState() == EntityState.Destroyed) {
+                iterator.remove();
+            }
+        }
     }
     public void draw(Batch batch) {
         for (Entity entity: mEntities) {
@@ -88,14 +97,13 @@ public class EntitiesController {
     }
     private void clampToBounds(Entity entity) {
         Vector2 entityPos = entity.getOriginBasedPosition();
-        if (entityPos.x < 0)
-            entityPos.x = mBounds.x;
-        else if (entityPos.x > mBounds.x)
-            entityPos.x = 0;
-        if (entityPos.y < 0)
-            entityPos.y = mBounds.y;
-        else if (entityPos.y > mBounds.y)
-            entityPos.y = 0;
-        entity.setOriginBasedPosition(entityPos.x, entityPos.y);
+        if (entityPos.x >= 0 && entityPos.y >= 0 && entityPos.x <= mBounds.x && entityPos.y <= mBounds.y)
+            return;
+
+        float clampedX = (entityPos.x < 0) ? mBounds.x : (entityPos.x > mBounds.x) ? 0 : entityPos.x;
+        float clampedY = (entityPos.y < 0) ? mBounds.y : (entityPos.y > mBounds.y) ? 0 : entityPos.y;
+
+        entity.onOutOfScreen();
+        entity.setOriginBasedPosition(clampedX, clampedY);
     }
 }

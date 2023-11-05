@@ -68,7 +68,7 @@ public class AsteroidsGame extends ApplicationAdapter implements IEntityDiedObse
 	public void onEntityDead(Entity spaceship) {
 		System.out.println("------Player died! Resetting the game...");
 		spaceship.setOriginBasedPosition(CAMERA_WIDTH / 2.f,CAMERA_HEIGHT / 2.f);
-		((Spaceship)spaceship).resetHealth();
+		((Spaceship)spaceship).reset();
 		mMeteorSpawner.resetMeteors();
 	}
 }

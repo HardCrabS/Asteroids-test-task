@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
 
 public class CircleCollisionShape extends CollisionShape {
     public CircleCollisionShape(Sprite sprite, float x, float y, float radius) {
@@ -26,10 +25,6 @@ public class CircleCollisionShape extends CollisionShape {
     @Override
     public boolean collide(CircleCollisionShape circle) {
         return Collision.overlaps((Circle)mShape, (Circle)circle.mShape);
-    }
-    @Override
-    public boolean collide(RectangleCollisionShape rectangle) {
-        return Collision.overlaps((Circle)mShape, (Rectangle)rectangle.mShape);
     }
     @Override
     public boolean collide(PolygonCollisionShape polygon) {
