@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
 
 public class MeteorSpawner implements IEntityDiedObserver {
-    private static final int MAX_METEORS = 3;
+    private static final int MAX_METEORS = 5;
     private static final int MAX_SPEED = 50;
     private static final int MAX_RANDOMIZE_ATTEMPTS = 30;
     private Vector2 mBounds;
@@ -34,8 +34,8 @@ public class MeteorSpawner implements IEntityDiedObserver {
         Vector2 randPoint = findRandomPointForMeteor(meteor);
         Vector2 randDirection = getRandomPoint(-1f, -1f, 1f, 1f);
         float randSpeed = MathUtils.random(0, MAX_SPEED);
-        meteor.setValues(texture, randSpeed, randDirection);
         meteor.setOriginBasedPosition(randPoint.x, randPoint.y);
+        meteor.setValues(texture, randSpeed, randDirection);
     }
     private Vector2 findRandomPointForMeteor(Meteor meteor) {
         for (int i = 0; i < MAX_RANDOMIZE_ATTEMPTS; i++) {
@@ -63,7 +63,6 @@ public class MeteorSpawner implements IEntityDiedObserver {
         meteor.setObserver(this);
         return meteor;
     }
-
     @Override
     public void onEntityDead(Entity entity) {
         randomizeMeteor((Meteor)entity);
