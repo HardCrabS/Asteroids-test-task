@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.asteroids.collision.CircleCollisionShape;
 import com.mygdx.asteroids.collision.CollisionLayer;
+import com.mygdx.asteroids.events.EventID;
+import com.mygdx.asteroids.events.EventsDispatcher;
+import com.mygdx.asteroids.events.MeteorEventData;
 
 public class Meteor extends Entity {
     public Meteor(Sprite sprite) {
@@ -29,6 +32,8 @@ public class Meteor extends Entity {
     @Override
     public void onCollision(Entity collision) {
         super.onCollision(collision);
-        die();
+        boolean isDestroyedByBullet = (collision.mCollisionLayer & CollisionLayer.BULLET) != 0;
+        EventsDispatcher.fireMeteorKilledEvent(this,
+                new MeteorEventData(EventID.METEOR_DESTROYED, isDestroyedByBullet));
     }
 }

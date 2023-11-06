@@ -9,6 +9,9 @@ import com.mygdx.asteroids.ResourceHolder;
 import com.mygdx.asteroids.ResourceId;
 import com.mygdx.asteroids.collision.CollisionLayer;
 import com.mygdx.asteroids.collision.PolygonCollisionShape;
+import com.mygdx.asteroids.events.EventData;
+import com.mygdx.asteroids.events.EventID;
+import com.mygdx.asteroids.events.EventsDispatcher;
 
 public class Spaceship extends Entity {
     private static final int MAX_HEALTH = 3;
@@ -61,7 +64,7 @@ public class Spaceship extends Entity {
         mHealth--;
         System.out.println("Spaceship collided with " + collision + ". HP left: " + mHealth);
         if (mHealth <= 0)
-            die();
+            EventsDispatcher.firePlayerDiedEvent(this, new EventData(EventID.PLAYER_DIED));
     }
     public void reset() {
         mHealth=MAX_HEALTH;

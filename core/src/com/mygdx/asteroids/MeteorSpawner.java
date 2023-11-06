@@ -8,18 +8,23 @@ import com.mygdx.asteroids.collision.CircleCollisionShape;
 import com.mygdx.asteroids.entities.Entity;
 import com.mygdx.asteroids.entities.Meteor;
 import com.mygdx.asteroids.entities.MeteorSize;
+import com.mygdx.asteroids.events.EventData;
+import com.mygdx.asteroids.events.EventID;
+import com.mygdx.asteroids.events.EventsDispatcher;
+import com.mygdx.asteroids.events.IObserver;
 
 import java.util.ArrayList;
 
-public class MeteorSpawner implements IEntityDiedObserver {
+public class MeteorSpawner implements IObserver {
     private static final int MAX_METEORS = 5;
     private static final int MAX_SPEED = 50;
     private static final int MAX_RANDOMIZE_ATTEMPTS = 30;
-    private Vector2 mBounds;
-    private ArrayList<Meteor> mMeteors;
+    private final Vector2 mBounds;
+    private final ArrayList<Meteor> mMeteors;
     public MeteorSpawner(float xBoundary, float yBoundary) {
         mBounds = new Vector2(xBoundary, yBoundary);
         mMeteors = new ArrayList<>();
+        EventsDispatcher.addMeteorKilledObserver(this);
     }
     public void fillWithMeteors() {
         for (int i = 0; i < MAX_METEORS; i++) {
@@ -63,11 +68,12 @@ public class MeteorSpawner implements IEntityDiedObserver {
     private Meteor spawnMeteor() {
         Meteor meteor = new Meteor(new Sprite());
         mMeteors.add(meteor);
-        meteor.setObserver(this);
         return meteor;
     }
     @Override
-    public void onEntityDead(Entity entity) {
-        randomizeMeteor((Meteor)entity);
+    public void onNotify(Entity entity, EventData eventData) {
+        if (eventData.eventID == EventID.METEOR_DESTROYED) {
+            randomizeMeteor((Meteor)entity);
+        }
     }
 }

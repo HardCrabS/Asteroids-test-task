@@ -10,8 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.asteroids.entities.Entity;
 import com.mygdx.asteroids.entities.Spaceship;
+import com.mygdx.asteroids.events.EventData;
+import com.mygdx.asteroids.events.EventID;
+import com.mygdx.asteroids.events.EventsDispatcher;
+import com.mygdx.asteroids.events.IObserver;
 
-public class AsteroidsGame extends ApplicationAdapter implements IEntityDiedObserver {
+public class AsteroidsGame extends ApplicationAdapter implements IObserver {
 	private SpriteBatch mBatch;
 	private TiledDrawable mTiledBackground;
 	private Player mPlayer;
@@ -31,10 +35,10 @@ public class AsteroidsGame extends ApplicationAdapter implements IEntityDiedObse
 
 		Sprite spaceShipSprite = new Sprite(ResourceHolder.get().getResource(ResourceId.Spaceship));
 		Spaceship spaceship = new Spaceship(spaceShipSprite, 300.f);
-		spaceship.setObserver(this);
 		EntitiesController.get().registerEntity(spaceship);
 		spaceship.setOriginBasedPosition(CAMERA_WIDTH / 2.f,CAMERA_HEIGHT / 2.f);
 		mPlayer = new Player(spaceship, mCamera);
+		EventsDispatcher.addPlayerDiedObserver(this);
 
 		EntitiesController.get().setBounds(CAMERA_WIDTH, CAMERA_HEIGHT);
 		mMeteorSpawner = new MeteorSpawner(CAMERA_WIDTH, CAMERA_HEIGHT);
@@ -65,12 +69,14 @@ public class AsteroidsGame extends ApplicationAdapter implements IEntityDiedObse
 		mBatch.dispose();
 		ResourceHolder.get().dispose();
 	}
-
 	@Override
-	public void onEntityDead(Entity spaceship) {
-		System.out.println("------Player died! Restarting the game...");
-		spaceship.setOriginBasedPosition(CAMERA_WIDTH / 2.f,CAMERA_HEIGHT / 2.f);
-		((Spaceship)spaceship).reset();
-		mMeteorSpawner.resetMeteors();
+	public void onNotify(Entity entity, EventData eventData) {
+		if (eventData.eventID == EventID.PLAYER_DIED) {
+			Spaceship spaceship = (Spaceship) entity;
+			System.out.println("------Player died! Restarting the game...");
+			spaceship.setOriginBasedPosition(CAMERA_WIDTH / 2.f, CAMERA_HEIGHT / 2.f);
+			spaceship.reset();
+			mMeteorSpawner.resetMeteors();
+		}
 	}
 }
