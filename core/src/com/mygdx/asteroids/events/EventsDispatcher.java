@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class EventsDispatcher {
     static ArrayList<IObserver> mMeteorKilledObservers = new ArrayList<>();
     static ArrayList<IObserver> mPlayerDiedObservers = new ArrayList<>();
+
     public static void addMeteorKilledObserver(IObserver observer) {mMeteorKilledObservers.add(observer);}
     public static void addPlayerDiedObserver(IObserver observer) {mPlayerDiedObservers.add(observer);}
 

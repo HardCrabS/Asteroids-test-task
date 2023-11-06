@@ -11,9 +11,9 @@ public class Player {
     public Spaceship getSpaceship() {
         return mSpaceship;
     }
-
     private final Spaceship mSpaceship;
     private final Camera mCamera;
+
     public Player(Spaceship spaceship, Camera camera) {
         mSpaceship = spaceship;
         mCamera = camera;

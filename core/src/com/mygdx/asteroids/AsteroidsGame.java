@@ -39,7 +39,7 @@ public class AsteroidsGame extends ApplicationAdapter implements IObserver {
 		mFont.getData().setScale(2);
 
 		Sprite spaceShipSprite = new Sprite(ResourceHolder.get().getResource(ResourceId.Spaceship));
-		Spaceship spaceship = new Spaceship(spaceShipSprite, 300.f);
+		Spaceship spaceship = new Spaceship(spaceShipSprite);
 		EntitiesController.get().registerEntity(spaceship);
 		spaceship.setOriginBasedPosition(CAMERA_WIDTH / 2.f,CAMERA_HEIGHT / 2.f);
 		mPlayer = new Player(spaceship, mCamera);

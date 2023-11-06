@@ -21,6 +21,7 @@ public class MeteorSpawner implements IObserver {
     private static final int MAX_RANDOMIZE_ATTEMPTS = 30;
     private final Vector2 mBounds;
     private final ArrayList<Meteor> mMeteors;
+
     public MeteorSpawner(float xBoundary, float yBoundary) {
         mBounds = new Vector2(xBoundary, yBoundary);
         mMeteors = new ArrayList<>();
