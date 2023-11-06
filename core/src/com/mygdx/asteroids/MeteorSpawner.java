@@ -16,8 +16,8 @@ import com.mygdx.asteroids.events.IObserver;
 import java.util.ArrayList;
 
 public class MeteorSpawner implements IObserver {
-    private static final int MAX_METEORS = 5;
-    private static final int MAX_SPEED = 50;
+    private static final int MAX_METEORS = 10;
+    private static final int MAX_SPEED = 100;
     private static final int MAX_RANDOMIZE_ATTEMPTS = 30;
     private final Vector2 mBounds;
     private final ArrayList<Meteor> mMeteors;

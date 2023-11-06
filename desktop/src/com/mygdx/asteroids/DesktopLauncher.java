@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("Asteroids");
-		config.setWindowedMode(800, 480);
+		config.setWindowedMode(1200, 720);
 		new Lwjgl3Application(new AsteroidsGame(), config);
 	}
 }

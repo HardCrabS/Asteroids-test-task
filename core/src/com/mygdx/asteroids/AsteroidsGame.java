@@ -25,6 +25,7 @@ public class AsteroidsGame extends ApplicationAdapter implements IObserver {
 	private int mDestroyedMeteorsCount = 0;
 	private static final int CAMERA_WIDTH = 800;
 	private static final int CAMERA_HEIGHT = 480;
+	private static final boolean DEBUG_DRAW = false;
 
 	@Override
 	public void create () {
@@ -64,7 +65,8 @@ public class AsteroidsGame extends ApplicationAdapter implements IObserver {
 		mFont.draw(mBatch, "Score: " + Integer.toString(mDestroyedMeteorsCount), 0, CAMERA_HEIGHT, 0, Align.left, false);
 		mFont.draw(mBatch, "HP: " + Integer.toString(mPlayer.getSpaceship().getHealth()), CAMERA_WIDTH, CAMERA_HEIGHT, 0, Align.right, false);
 		mBatch.end();
-		EntitiesController.get().drawCollisionShape();
+		if (DEBUG_DRAW)
+			EntitiesController.get().drawCollisionShape();
 	}
 
 	private void update() {
