@@ -1,5 +1,7 @@
 package com.mygdx.asteroids;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Disposable;
@@ -17,17 +19,18 @@ public class ResourceHolder implements Disposable {
     private ResourceHolder()
     {
         mResources = new HashMap<>();
-        mResources.put(ResourceId.Background, new Texture("BG.png"));
-        mResources.put(ResourceId.Spaceship, new Texture("spaceShip.png"));
-        mResources.put(ResourceId.Bullet, new Texture("bullet.png"));
+        mResources.put(ResourceId.Background, new Texture(Gdx.files.internal("BG.png")));
+        mResources.put(ResourceId.Spaceship, new Texture(Gdx.files.internal("spaceShip.png")));
+        mResources.put(ResourceId.Bullet, new Texture(Gdx.files.internal("bullet.png")));
 
         mMeteorTextures = new HashMap<>();
         for (MeteorSize size: MeteorSize.values()) {
             ArrayList<Texture> meteors = new ArrayList<>();
             for (int i = 0; ; i++) {
                 String path = String.format("Meteors/%s/meteor_%d.png", size.toString(), i);
-                if (fileExists(path))
-                    meteors.add(new Texture(path));
+                FileHandle fileHandle = Gdx.files.internal(path);
+                if (fileHandle.exists())
+                    meteors.add(new Texture(fileHandle));
                 else
                     break;
             }
@@ -49,9 +52,6 @@ public class ResourceHolder implements Disposable {
     public Texture getRandomMeteorTexture(MeteorSize meteorSize) {
         ArrayList<Texture> meteors = mMeteorTextures.get(meteorSize);
         return meteors.get(MathUtils.random(0, meteors.size() - 1));
-    }
-    private boolean fileExists(String path) {
-        return new File(path).exists();
     }
     @Override
     public void dispose() {
