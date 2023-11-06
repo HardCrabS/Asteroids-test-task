@@ -8,6 +8,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.asteroids.entities.Spaceship;
 
 public class Player {
+    public Spaceship getSpaceship() {
+        return mSpaceship;
+    }
+
     private final Spaceship mSpaceship;
     private final Camera mCamera;
     public Player(Spaceship spaceship, Camera camera) {

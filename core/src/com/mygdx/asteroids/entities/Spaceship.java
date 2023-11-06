@@ -21,6 +21,9 @@ public class Spaceship extends Entity {
     private int mHealth = 3;
     private float mTimeSinceLastShot = 0.f;
     private final Texture mBulletTexture;
+    public int getHealth() {
+        return mHealth;
+    }
 
     public Spaceship(Sprite sprite, float speed) {
         super(sprite, CollisionLayer.PLAYER, CollisionLayer.METEOR, speed);
